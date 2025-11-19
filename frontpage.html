@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ProType — Welcome</title>
+    <link rel="stylesheet" href="css/frontpage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main class="hero">
+        <div class="container">
+            <header class="logo">ProType</header>
+            <h1 class="title">Welcome to ProType</h1>
+            <p class="subtitle">A lightweight typing speed test — sharpen your accuracy and speed in 60 seconds.</p>
+
+            <div class="actions">
+                <a class="btn primary" href="index.html" id="enter-btn">Enter Site</a>
+            </div>
+
+            <p id="about" class="about">ProType is a minimal typing practice app.</p>
+        </div>
+        <footer class="credit">Made with ♥</footer>
+    </main>
+
+    <script>
+        const enterBtn = document.getElementById('enter-btn');
+        const sound = new Audio('click.mp3');
+        sound.volume = 0.5;
+
+        enterBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Stop immediate navigation
+            sound.play().catch(() => {}); // Play sound
+            
+            // Wait briefly for sound to start, then navigate
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 150);
+        });
+    </script>
+</body>
+</html>
