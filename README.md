@@ -2,7 +2,7 @@
 
 This is a simple Typing Test website.
 
-it is made by HTML, CSS, JAVASCRIPT.
+It is made by HTML, CSS, JAVASCRIPT.
 
 ## Features
 - Responsive design
