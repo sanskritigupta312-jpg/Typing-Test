@@ -1,6 +1,6 @@
 # Typing-Test
 
-This is a simple Tic Tac Toe Game website.
+This is a simple Typing Test website.
 
 it is made by HTML, CSS, JAVASCRIPT.
 
