@@ -79,6 +79,7 @@ body {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-muted);
+    margin-left: 1rem;
 }
 
 .nav-link {
@@ -439,3 +440,4 @@ body {
 .light .modal-title { color: #111; }
 .light .result-box { background-color: #f9fafb; border-color: #e5e7eb; }
 .light .res-chars { color: #333; }
+
