@@ -55,12 +55,6 @@ body {
     gap: 0.5rem;
 }
 
-.logo-icon {
-    height: 1.5rem;
-    width: 1.5rem;
-    color: var(--accent-pink);
-}
-
 .logo-text {
     font-size: 1.5rem; /* 2xl */
     font-weight: 700;
@@ -440,4 +434,5 @@ body {
 .light .modal-title { color: #111; }
 .light .result-box { background-color: #f9fafb; border-color: #e5e7eb; }
 .light .res-chars { color: #333; }
+
 
