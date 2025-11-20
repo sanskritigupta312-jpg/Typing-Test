@@ -81,6 +81,7 @@ body {
     color: var(--accent-pink);
     font-weight: 600;
     text-decoration: none;
+    margin-right: 1rem;
 }
 
 .nav-link:hover {
@@ -434,5 +435,6 @@ body {
 .light .modal-title { color: #111; }
 .light .result-box { background-color: #f9fafb; border-color: #e5e7eb; }
 .light .res-chars { color: #333; }
+
 
 
