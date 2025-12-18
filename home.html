@@ -12,11 +12,23 @@
     <div class="header">
         <div class="logo-section">
             <h1 class="logo-text">ProType</h1>
+            <span id="session-greeting" class="session-status"></span> 
         </div>
+
         <div class="nav-section">
+            <div class="duration-options">
+                <button class="duration-option" data-duration="15">15s</button>
+                <button class="duration-option" data-duration="30">30s</button>
+                <button class="duration-option" data-duration="45">45s</button>
+                <button class="duration-option active" data-duration="60">60s</button>
+            </div>
+            
             <div class="nav-label">Basic 60s Test</div>
             <a href="index.html" class="nav-link">Home</a>
+            <a href="progress.html" class="nav-link hidden" id="progress-btn">Report</a>
         </div>
+
+        <button id="logout-btn" class="theme-btn">Logout</button>
         <button id="theme-toggle" class="theme-btn">Light Mode</button>
     </div>
 
@@ -46,6 +58,7 @@
         
         <input type="text" id="hidden-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
     </div> 
+
     <div class="restart-container">
         <button id="restart-btn" class="restart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" class="restart-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,9 +103,5 @@
     </div>
 
     <script src="home.js"></script>
-    
 </body>
-
 </html>
-
-
