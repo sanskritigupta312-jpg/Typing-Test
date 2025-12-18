@@ -1,5 +1,5 @@
 // Config
-const TEST_DURATION = 60;
+let TEST_DURATION = 60;
 const wordsList = [
     "the", "be", "of", "and", "a", "to", "in", "he", "have", "it", "that", "for", "they", "i", "with", "as", "not", "on", "she", "at", "by", "this", "we", "you", "do", "but", "from", "or", "which", "one", "would", "all", "will", "there", "say", "who", "make", "when", "can", "more", "if", "no", "man", "out", "other", "so", "what", "time", "up", "go", "about", "than", "into", "could", "state", "only", "new", "year", "some", "take", "come", "these", "know", "see", "use", "get", "like", "then", "first", "any", "work", "now", "may", "such", "give", "over", "think", "most", "even", "find", "day", "also", "after", "way", "many", "must", "look", "before", "great", "back", "through", "long", "where", "much", "should", "well", "people", "down", "own", "just", "because", "good", "each", "those", "feel", "seem", "how", "high", "too", "place", "little", "world", "very", "still", "nation", "hand", "old", "life", "tell", "write", "become", "here", "show", "house", "both", "between", "need", "mean", "call", "develop", "under", "last", "right", "move", "thing", "general", "school", "never", "same", "another", "begin", "while", "number", "part", "turn", "real", "leave", "might", "want", "point", "form", "off", "child", "few", "small", "since", "against", "ask", "late", "home", "interest", "large", "person", "end", "open", "public", "follow", "during", "present", "without", "again", "hold", "govern", "around", "possible", "head", "consider", "word", "program", "problem", "however", "lead", "system", "set", "order", "eye", "plan", "run", "keep", "face", "fact", "group", "play", "stand", "increase", "early", "course", "change", "help", "line"
 ];
@@ -24,6 +24,11 @@ const focusError = document.getElementById("focus-error");
 const resultsModal = document.getElementById("results-modal");
 const resultsContent = document.getElementById("results-content");
 const themeToggleBtn = document.getElementById("theme-toggle");
+const logoutBtn = document.getElementById("logout-btn"); 
+const sessionGreeting = document.getElementById("session-greeting");
+// Progress Button Element
+const progressBtn = document.getElementById("progress-btn");
+
 const clickSoundBase = new Audio("click.mp3"); 
 clickSoundBase.volume = 0.5; 
 
@@ -31,7 +36,13 @@ clickSoundBase.volume = 0.5;
 // Initialize
 function init() {
     console.log('init: starting');
+    
+    // 1. Update UI based on session status
+    updateSessionUI();
+
+    // 2. Setup initial game state
     setupWords();
+    updateDurationLabel(TEST_DURATION);
     
     // --- BUTTON LOGIC ---
     const allButtons = document.querySelectorAll("button");
@@ -39,24 +50,37 @@ function init() {
         btn.addEventListener("click", playClickSound);
     });
 
-    // FIX: Use 'mousedown' to trigger reset before the focus is lost
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", logout);
+    }
+
     const restartBtn = document.getElementById("restart-btn");
     if(restartBtn) {
         restartBtn.addEventListener("mousedown", (e) => {
-            e.preventDefault(); // Prevent focus loss flicker
+            e.preventDefault(); 
             resetGame();
         });
     }
 
+    // --- DURATION SELECTION LOGIC ---
+    const durationOptions = document.querySelectorAll(".duration-option");
+    durationOptions.forEach(option => {
+        option.addEventListener("click", () => {
+            const newDuration = parseInt(option.dataset.duration);
+            if (newDuration !== TEST_DURATION) {
+                TEST_DURATION = newDuration;
+                resetGame(); 
+            }
+            durationOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            updateDurationLabel(newDuration);
+        });
+    });
+
     // --- FOCUS MANAGEMENT ---
     document.addEventListener("keydown", (ev) => {
-        // FIX: Allow "Tab" to pass through so user can reach the Restart button
         if (ev.key === "Tab") return;
-
-        // FIX: If user presses Enter on a button (like Restart), let it work
         if (ev.key === "Enter" && document.activeElement.tagName === "BUTTON") return;
-
-        // Otherwise, keep focus on the hidden input for typing
         if(document.activeElement !== hiddenInput) {
             focusInput();
         }
@@ -82,7 +106,77 @@ function init() {
     });
 }
 
-// Helper for playing sound
+// --- SESSION & UI HELPER FUNCTIONS ---
+
+function updateSessionUI() {
+    const status = localStorage.getItem('sessionStatus');
+    const userName = localStorage.getItem('userName');
+    
+    if (sessionGreeting && logoutBtn) {
+        if (status === 'authenticated') {
+            sessionGreeting.textContent = `👋 Welcome, ${userName || 'User'}!`;
+            logoutBtn.textContent = "Logout";
+            sessionGreeting.classList.add('authenticated-status');
+            sessionGreeting.classList.remove('guest-status');
+            
+            // Show Progress Button
+            if(progressBtn) progressBtn.classList.remove('hidden');
+        } else {
+            sessionGreeting.textContent = "👤 Guest Session";
+            logoutBtn.textContent = "End Session";
+            sessionGreeting.classList.add('guest-status');
+            sessionGreeting.classList.remove('authenticated-status');
+            
+            // Hide Progress Button
+            if(progressBtn) progressBtn.classList.add('hidden');
+        }
+    }
+}
+
+function logout() {
+    localStorage.removeItem('sessionStatus');
+    localStorage.removeItem('userName'); 
+    window.location.href = 'index.html'; 
+}
+
+function updateDurationLabel(duration) {
+    const navLabel = document.querySelector(".nav-label");
+    if (navLabel) {
+        navLabel.textContent = `Basic ${duration}s Test`;
+    }
+}
+
+// --- HISTORY LOGIC (Updated to include Duration) ---
+
+function saveToHistory(wpm, acc, duration) {
+    const status = localStorage.getItem('sessionStatus');
+    const userName = localStorage.getItem('userName');
+
+    // Only save if user is logged in
+    if (status !== 'authenticated' || !userName) return;
+
+    const storageKey = `proType_history_${userName}`;
+    
+    const newEntry = {
+        date: new Date().toISOString(),
+        wpm: parseInt(wpm),
+        acc: acc,
+        duration: duration // New field
+    };
+
+    let history = JSON.parse(localStorage.getItem(storageKey)) || [];
+    history.unshift(newEntry);
+
+    // Keep last 100 entries
+    if (history.length > 100) {
+        history = history.slice(0, 100);
+    }
+
+    localStorage.setItem(storageKey, JSON.stringify(history));
+}
+
+// --- GAME LOGIC ---
+
 function playClickSound() {
     const sound = clickSoundBase.cloneNode();
     sound.volume = 0.5;
@@ -102,7 +196,7 @@ function renderWords() {
     quoteDisplay.innerHTML = "";
     generatedWords.forEach((word) => {
         const wordSpan = document.createElement("div");
-        wordSpan.className = "word"; // CSS class handles display:inline-block
+        wordSpan.className = "word"; 
         
         word.split("").forEach((char) => {
             const charSpan = document.createElement("span");
@@ -132,7 +226,6 @@ function updateCursor(wordIdx, charIdx) {
     if (charIdx < charNodes.length) {
         charNodes[charIdx].classList.add("current");
         
-        // Auto-scroll
         const charTop = charNodes[charIdx].offsetTop;
         const relativeTop = charTop - quoteDisplay.scrollTop;
         
@@ -165,11 +258,9 @@ function handleInput(e) {
     
     const charNodes = currentWordNode.querySelectorAll(".char");
 
-    // Handle Backspace
     if (inputType === "deleteContentBackward") {
         if (currentCharIndex > 0) {
             currentCharIndex--;
-            // Cleanup visual state
             if (currentCharIndex < charNodes.length) {
                 charNodes[currentCharIndex].classList.remove("correct", "incorrect");
             }
@@ -178,7 +269,6 @@ function handleInput(e) {
         return;
     }
 
-    // Handle Space
     if (inputChar === " ") {
         currentWordIndex++;
         currentCharIndex = 0;
@@ -187,7 +277,6 @@ function handleInput(e) {
         return;
     }
 
-    // Handle Standard Character
     if (currentCharIndex < currentWordStr.length) {
         const targetChar = currentWordStr[currentCharIndex];
         
@@ -242,12 +331,17 @@ function endGame() {
     isRunning = false;
     hiddenInput.blur();
     
-    document.getElementById("result-wpm").innerText = wpmElement.innerText;
-    document.getElementById("result-acc").innerText = accuracyElement.innerText;
+    const wpmResult = wpmElement.innerText;
+    const accResult = accuracyElement.innerText;
+
+    document.getElementById("result-wpm").innerText = wpmResult;
+    document.getElementById("result-acc").innerText = accResult;
     document.getElementById("result-correct").innerText = correctChars;
     document.getElementById("result-wrong").innerText = incorrectChars;
 
-    // Using the utility classes defined in index.css
+    // --- SAVE RESULT WITH DURATION ---
+    saveToHistory(wpmResult, accResult, TEST_DURATION);
+
     resultsModal.classList.remove("hidden");
     setTimeout(() => {
         resultsModal.classList.remove("opacity-0");
@@ -266,7 +360,8 @@ function resetGame() {
     }, 300);
 
     clearInterval(timer);
-    timeLeft = TEST_DURATION;
+    
+    timeLeft = TEST_DURATION; 
     isRunning = false;
     currentWordIndex = 0;
     currentCharIndex = 0;
@@ -283,12 +378,21 @@ function resetGame() {
     focusInput();
 }
 
+
 function focusInput() {
     hiddenInput.focus();
     focusError.classList.add("hidden");
+    
+    // Mobile fix: Ensure the active line is visible when keyboard pops up
+    // We wait a brief moment for the keyboard to slide up
+    setTimeout(() => {
+        const cursor = document.querySelector(".char.current");
+        if (cursor) {
+            cursor.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }, 300);
 }
 
-// THEME SWITCHER
 function applyTheme(theme) {
     if (theme === "light") {
         document.body.classList.add("light");
@@ -310,5 +414,4 @@ if (themeToggleBtn) {
 const savedTheme = localStorage.getItem("theme") || "dark";
 applyTheme(savedTheme);
 
-// Start
 init();
