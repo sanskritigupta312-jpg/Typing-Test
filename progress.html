@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProType - Progress Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+</head>
+<body class="scrollable">
+
+    <div class="header">
+        <div class="logo-section">
+            <h1 class="logo-text">ProType</h1>
+            <span class="session-status authenticated-status">Progress Report</span> 
+        </div>
+
+        <div class="nav-section">
+            <a href="home.html" class="nav-link">Back to Test</a>
+        </div>
+
+        <button id="theme-toggle" class="theme-btn">Light Mode</button>
+    </div>
+
+    <div class="progress-container">
+        
+        <div class="summary-cards">
+            <div class="summary-card">
+                <span class="summary-val" id="total-tests">0</span>
+                <span class="summary-label">Tests Taken</span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-val" id="highest-wpm">0</span>
+                <span class="summary-label">Highest WPM</span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-val" id="avg-wpm">0</span>
+                <span class="summary-label">Avg WPM</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Mode</th>
+                        <th>WPM</th>
+                        <th>Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody id="progress-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="progress.js"></script>
+</body>
+</html>
