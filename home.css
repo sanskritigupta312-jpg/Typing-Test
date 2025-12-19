@@ -479,9 +479,8 @@ body.scrollable { overflow-y: auto; }
 
     /* Shorten the typing area to keep it visible above the keyboard */
     .typing-area {
-        height: 110px !important;
+        height: 130px !important;
         font-size: 1.5rem !important;
-        line-height: 1.7;
         padding-top: 0 !important;
     }
 
@@ -529,5 +528,6 @@ body.scrollable { overflow-y: auto; }
 .light .typing-area.focused { border-color: #ccc; }
 .light .action-btn { background-color: #e11d48; color: #fff; }
 .light .summary-val { color: #e11d48; }
+
 
 
