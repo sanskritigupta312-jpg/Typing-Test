@@ -478,10 +478,14 @@ body.scrollable { overflow-y: auto; }
     }
 
     /* Shorten the typing area to keep it visible above the keyboard */
+    .typing-wrapper {
+        max-width:100%;
+        padding: 0 1rem;
+    }
     .typing-area {
         height: 200px;
-        font-size: 1.5rem !important;
-        padding-top: 0 !important;
+        font-size: 1.4rem;
+        padding: 1rem;
     }
 
     #logout-btn, .theme-btn {
@@ -528,6 +532,7 @@ body.scrollable { overflow-y: auto; }
 .light .typing-area.focused { border-color: #ccc; }
 .light .action-btn { background-color: #e11d48; color: #fff; }
 .light .summary-val { color: #e11d48; }
+
 
 
 
