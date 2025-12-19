@@ -465,8 +465,8 @@ body.scrollable { overflow-y: auto; }
 
     /* Pull the stats up immediately under the thin header */
     .stats-container {
-        margin: 0.5rem 0 1rem 0 !important;
-        gap: 1rem !important;
+        margin: 1rem 0 1.2rem 0;
+        gap: 1rem;
     }
 
     .stat-value {
@@ -532,6 +532,7 @@ body.scrollable { overflow-y: auto; }
 .light .typing-area.focused { border-color: #ccc; }
 .light .action-btn { background-color: #e11d48; color: #fff; }
 .light .summary-val { color: #e11d48; }
+
 
 
 
