@@ -470,18 +470,18 @@ body.scrollable { overflow-y: auto; }
     }
 
     .stat-value {
-        font-size: 1.9rem !important;
+        font-size: 1.8rem;
     }
 
     .stat-label {
-        font-size: 0.75rem !important;
+        font-size: 0.75rem;
     }
-
-    /* Shorten the typing area to keep it visible above the keyboard */
+    
     .typing-wrapper {
         max-width:100%;
         padding: 0 1rem;
     }
+    
     .typing-area {
         height: 200px;
         font-size: 1.4rem;
@@ -532,6 +532,7 @@ body.scrollable { overflow-y: auto; }
 .light .typing-area.focused { border-color: #ccc; }
 .light .action-btn { background-color: #e11d48; color: #fff; }
 .light .summary-val { color: #e11d48; }
+
 
 
 
