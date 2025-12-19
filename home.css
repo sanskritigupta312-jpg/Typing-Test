@@ -417,7 +417,7 @@ body.scrollable { overflow-y: auto; }
     }
 
     .logo-text {
-        font-size: 1.1rem !important; /* Smaller logo */
+        font-size: 1.35rem !important; /* Smaller logo */
     }
 
     .session-status {
@@ -441,13 +441,18 @@ body.scrollable { overflow-y: auto; }
         display: none !important; 
     }
 
+    .nav-link {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
     .duration-options {
         display: flex;
         gap: 0.10rem;
     }
 
     .duration-option {
-        font-size: 0.7rem !important;
+        font-size: 0.95rem !important;
         padding: 0.2rem 0.4rem !important;
     }
 
@@ -465,17 +470,18 @@ body.scrollable { overflow-y: auto; }
     }
 
     .stat-value {
-        font-size: 1.4rem !important;
+        font-size: 1.9rem !important;
     }
 
     .stat-label {
-        font-size: 0.6rem !important;
+        font-size: 0.75rem !important;
     }
 
     /* Shorten the typing area to keep it visible above the keyboard */
     .typing-area {
         height: 110px !important;
-        font-size: 1.1rem !important;
+        font-size: 1.5rem !important;
+        line-height: 1.7;
         padding-top: 0 !important;
     }
 
@@ -523,4 +529,5 @@ body.scrollable { overflow-y: auto; }
 .light .typing-area.focused { border-color: #ccc; }
 .light .action-btn { background-color: #e11d48; color: #fff; }
 .light .summary-val { color: #e11d48; }
+
 
